@@ -18,19 +18,11 @@ public class ProjetoFinal {
     // Rayanne Barros
 
     /*
-    Crie um programa de uma loja com as seguintes opções abaixo, para cada operação,
-    deve ser manipulado arquivo para salvar as informações dos produtos, para que caso saia do programa as informações persistam.
-
-Obs: só vai precisar salvar do arquivo as informações dos produtos.
-
-
 * Compra de produtos, onde o usuário pode escolher produtos e quantidades conforme ele queira,
  assim que escolher finalizar, mostre tudo que ele comprou, os preços e o total.
   Quando ele for escolher o produto e quantidade, faça uma verificação se o produto tem aquela
    quantidade, caso não tenha, informe ao usuário que não contém a quantidade deste produto no
    estoque. Assim que o usuário confirmar a compra, deduza as quantidades dos produtos selecionados.
-
-
      */
     static Scanner input = new Scanner(System.in);
     static List<String> listaProdutos = new ArrayList<>();
@@ -71,20 +63,65 @@ Obs: só vai precisar salvar do arquivo as informações dos produtos.
 
     private static void comprarProduto() throws IOException {
 
-        System.out.println("Selecione o ID do produto desejado: ");
-        String id = input.nextLine();
-        System.out.println("Quantidade desejada: ");
-        Integer quantidadeCarrinho = Integer.valueOf(input.nextLine());
+        Boolean fimCompra = false;
+        do{
+            System.out.println("Selecione o ID do produto desejado: ");
+            String id = input.nextLine();
+            System.out.println("Quantidade desejada: ");
+            Integer quantidadeCarrinho = Integer.valueOf(input.nextLine());
+            Integer quantidadeEstoque;
+            List<String> listaProdutos =  Files.readAllLines(path);
+            List<String> carrinho = new ArrayList<>();
 
-        List<String> listaProdutos =  Files.readAllLines(path);
-        List<String> carrinho = new ArrayList<>();
-        for(String string: listaProdutos){
-            String idCarrinho = string.split("\\|")[0];
-            Integer quantidadeEstoque = Integer.valueOf(string.split("\\|")[3]);
-            if(idCarrinho.equals(id) && quantidadeCarrinho <= quantidadeEstoque){
-                carrinho.add(string);
+            for(String string: listaProdutos){
+                //pegando informacao do estoque
+                String idCarrinho = string.split("\\|")[0];
+                System.out.println();
+
+                // Seleciona apenas a linha do ID desejado
+                if(idCarrinho.equals(id)) {
+                    // pega a quantidade atual do estoque
+                    quantidadeEstoque = Integer.valueOf(string.split("\\|")[3]);
+
+                    //verifica se a quantidade escolhida é valida
+                    if (quantidadeCarrinho <= quantidadeEstoque) {
+                        // PENDENTE: substituir a quantidade na string para a quantidadeCarrinho
+                        string.split("\\|");
+
+                        // item desejado é adicionado ao carrinho
+                        carrinho.add(string);
+                    } else {
+                        System.out.printf("Quantidade inválida. Existem apenas %d itens no estoque\n", quantidadeEstoque);
+                    }
+                }
             }
-        }
+
+            System.out.println("Deseja continuar comprando? (S/N)");
+            String continuar = input.nextLine();
+            if (continuar.toLowerCase().equals("n")){
+                    fimCompra = true;
+                // mostrar total do carrinho com lista de produtos..
+
+                // Fazer correção do erro na conversao das variaveis
+                Double quantidadeTotal=0.0;
+                Double precoTotal=0.0;
+                for(String string: carrinho){
+                    String idcarrinho = string.split("\\|")[0];
+                    String produto = string.split("\\|")[1];
+                    String preco = string.split("\\|")[2];
+                    String quantidade = string.split("\\|")[3];
+                    System.out.printf("ID: %d | Produto: %s | Preço: R$ %s | quantidade: %s\n", idcarrinho, produto, preco, quantidade);
+                    Double totalItem = Double.parseDouble(preco)*Double.parseDouble(quantidade);
+                    quantidadeTotal += Double.parseDouble(quantidade);
+                    precoTotal += totalItem;
+                }
+                System.out.println("------------------------------------------------------------------");
+                System.out.printf("Total do Carrinho                | Preco: R$ %.2f | quantidade: %.0f\n", precoTotal, quantidadeTotal);
+
+                // deduzir as quantidades
+                // voltar pro menu
+            }
+        }while(!fimCompra);
 
     }
 

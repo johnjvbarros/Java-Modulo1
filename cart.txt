@@ -1,0 +1,11 @@
+1|pera|1.5|100
+2|maca|2.5|24
+3|abacaxi|3.5|200
+4|melao|15|24
+5|uva|7|233
+6|tangerina|3.4|100
+7|banana|1.9|150
+8|pinhao|11|200
+9|batata|2|230
+10|abacate|12|25
+11|melancia|13|23
