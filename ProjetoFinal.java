@@ -1,3 +1,5 @@
+package Aula6;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,8 +13,9 @@ public class ProjetoFinal {
     // Integrantes do Grupo:
     // Andre Camargo
     // Enzo Ramos
-    // Pietro Zardini
     // Joao Victor
+    // Pietro Zardini
+    // Rayanne Barros
 
     /*
     Crie um programa de uma loja com as seguintes opções abaixo, para cada operação,
@@ -189,7 +192,7 @@ Obs: só vai precisar salvar do arquivo as informações dos produtos.
         List<String> listaStrings = Files.readAllLines(path);
         String parametros = listaStrings.get(listaStrings.size()-1).split("\\|")[0];
         Integer id = Integer.valueOf(parametros) + 1;
-        Files.writeString(path, id +"|"+ produto+"|"+preco+"|"+quantidade+" \n", StandardOpenOption.APPEND);
+        Files.writeString(path, id +"|"+ produto+"|"+preco+"|"+quantidade+"\n", StandardOpenOption.APPEND);
 
     }
 }
